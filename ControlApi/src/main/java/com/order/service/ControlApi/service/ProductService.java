@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> getProducts() {
-        // Se o banco estiver vazio, busca da API e salva
+
         if (productRepository.count() == 0) {
             ProductExternalDTO[] externalProducts = restTemplate.getForObject(API_URL, ProductExternalDTO[].class);
             if (externalProducts != null) {
@@ -35,7 +35,7 @@ public class ProductService {
             }
         }
 
-        // Retorna o que estiver no banco
+
         return productRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -52,6 +52,18 @@ public class ProductService {
                     productRepository.save(product);
                     return convertToDTO(product);
                 });
+    }
+
+    public void deductStock(Long id, Integer quantity) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + id));
+
+        if (product.getStock() < quantity) {
+            throw new RuntimeException("Estoque insuficiente para o produto: " + product.getName());
+        }
+
+        product.setStock(product.getStock() - quantity);
+        productRepository.save(product);
     }
 
     private Product convertToEntity(ProductExternalDTO external) {

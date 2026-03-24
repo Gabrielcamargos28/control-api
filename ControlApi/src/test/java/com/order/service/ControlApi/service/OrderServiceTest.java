@@ -64,6 +64,7 @@ class OrderServiceTest {
         assertNotNull(orderId);
         assertEquals(100L, orderId);
         verify(orderRepository, times(1)).save(any(Order.class));
+        verify(productService, times(1)).deductStock(1L, 2);
     }
 
     @Test

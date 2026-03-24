@@ -96,4 +96,34 @@ class ProductServiceTest {
         assertEquals("Repo Product", products.get(0).getNome());
         verify(restTemplate, never()).getForObject(anyString(), any());
     }
+
+    @Test
+    void shouldDeductStockWhenAvailable() {
+        Product product = Product.builder()
+                .id(1L)
+                .name("Product Test")
+                .stock(10)
+                .build();
+
+        when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
+
+        productService.deductStock(1L, 3);
+
+        assertEquals(7, product.getStock());
+        verify(productRepository).save(product);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStockIsInsufficient() {
+        Product product = Product.builder()
+                .id(1L)
+                .name("Product Test")
+                .stock(2)
+                .build();
+
+        when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
+
+        assertThrows(RuntimeException.class, () -> productService.deductStock(1L, 5));
+        verify(productRepository, never()).save(any());
+    }
 }

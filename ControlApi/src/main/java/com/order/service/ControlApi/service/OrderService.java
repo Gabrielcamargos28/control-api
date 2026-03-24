@@ -48,6 +48,8 @@ public class OrderService {
                     .build();
             
             order.addItem(orderItem);
+
+            productService.deductStock(product.getId(), itemRequest.getQuantidade());
         }
 
         Order savedOrder = orderRepository.save(order);
