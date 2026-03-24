@@ -37,10 +37,8 @@ import { OrderSuccessComponent } from './features/orders/order-success/order-suc
 
       <!-- Main Content -->
       <main class="main-content">
-        <!-- Overlay for Success/Detail view -->
         <app-order-success *ngIf="orderService.lastOrder()" />
 
-        <!-- Router Outlet for other pages -->
         <div *ngIf="!orderService.lastOrder()">
           <router-outlet />
         </div>

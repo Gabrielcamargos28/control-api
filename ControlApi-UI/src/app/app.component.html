@@ -1,129 +1,129 @@
-<div class="container">
-  <header>
-    <h1>ControlApi </h1>
-    <div *ngIf="loading()" class="loader">Processando...</div>
-  </header>
+<!--<div class="container">-->
+<!--  <header>-->
+<!--    <h1>ControlApi </h1>-->
+<!--    <div *ngIf="loading()" class="loader">Processando...</div>-->
+<!--  </header>-->
 
-  <!-- Error Message -->
-  <div *ngIf="error()" class="error-banner">
-    {{ error() }}
-    <button (click)="error.set(null)">X</button>
-  </div>
+<!--  &lt;!&ndash; Error Message &ndash;&gt;-->
+<!--  <div *ngIf="error()" class="error-banner">-->
+<!--    {{ error() }}-->
+<!--    <button (click)="error.set(null)">X</button>-->
+<!--  </div>-->
 
-  <!-- Success / Order Details View -->
-  <div *ngIf="lastOrder() as order" class="success-view">
-    <div class="card">
-      <h2>Pedido Criado com Sucesso!</h2>
-      <p>ID do Pedido: <strong>#{{ order.id }}</strong></p>
-      <p>Cliente: <strong>{{ order.customerName }}</strong></p>
-      <p>Status: <span class="badge">{{ order.status }}</span></p>
+<!--  &lt;!&ndash; Success / Order Details View &ndash;&gt;-->
+<!--  <div *ngIf="lastOrder() as order" class="success-view">-->
+<!--    <div class="card">-->
+<!--      <h2>Pedido Criado com Sucesso!</h2>-->
+<!--      <p>ID do Pedido: <strong>#{{ order.id }}</strong></p>-->
+<!--      <p>Cliente: <strong>{{ order.customerName }}</strong></p>-->
+<!--      <p>Status: <span class="badge">{{ order.status }}</span></p>-->
 
-      <table class="details-table">
-        <thead>
-          <tr>
-            <th>Produto</th>
-            <th>Qtd</th>
-            <th>Preço Un.</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of order.items">
-            <td>{{ item.productName }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.unitPrice | currency:'BRL' }}</td>
-            <td>{{ item.subTotal | currency:'BRL' }}</td>
-          </tr>
-        </tbody>
-      </table>
+<!--      <table class="details-table">-->
+<!--        <thead>-->
+<!--          <tr>-->
+<!--            <th>Produto</th>-->
+<!--            <th>Qtd</th>-->
+<!--            <th>Preço Un.</th>-->
+<!--            <th>Subtotal</th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--          <tr *ngFor="let item of order.items">-->
+<!--            <td>{{ item.productName }}</td>-->
+<!--            <td>{{ item.quantity }}</td>-->
+<!--            <td>{{ item.unitPrice | currency:'BRL' }}</td>-->
+<!--            <td>{{ item.subTotal | currency:'BRL' }}</td>-->
+<!--          </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
 
-      <div class="total-section">
-        <h3>Total: {{ order.totalPrice | currency:'BRL' }}</h3>
-      </div>
+<!--      <div class="total-section">-->
+<!--        <h3>Total: {{ order.totalPrice | currency:'BRL' }}</h3>-->
+<!--      </div>-->
 
-      <button class="btn-primary" (click)="newOrder()">Novo Pedido</button>
-    </div>
-  </div>
+<!--      <button class="btn-primary" (click)="newOrder()">Novo Pedido</button>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <!-- Main Storefront View -->
-  <main *ngIf="!lastOrder()" class="storefront">
-    <!-- Product List -->
-    <section class="products-section">
-      <h2>Catálogo de Produtos</h2>
-      <div *ngIf="products().length === 0" class="empty-state">
-        Nenhum produto disponível.
-      </div>
-      <div class="grid">
-        <div *ngFor="let product of products()" class="product-card">
-          <h3>{{ product.name }}</h3>
-          <p class="price">{{ product.price | currency:'BRL' }}</p>
-          <button class="btn-add" (click)="addToCart(product)">+ Adicionar</button>
-        </div>
-      </div>
-    </section>
+<!--  &lt;!&ndash; Main Storefront View &ndash;&gt;-->
+<!--  <main *ngIf="!lastOrder()" class="storefront">-->
+<!--    &lt;!&ndash; Product List &ndash;&gt;-->
+<!--    <section class="products-section">-->
+<!--      <h2>Catálogo de Produtos</h2>-->
+<!--      <div *ngIf="products().length === 0" class="empty-state">-->
+<!--        Nenhum produto disponível.-->
+<!--      </div>-->
+<!--      <div class="grid">-->
+<!--        <div *ngFor="let product of products()" class="product-card">-->
+<!--          <h3>{{ product.name }}</h3>-->
+<!--          <p class="price">{{ product.price | currency:'BRL' }}</p>-->
+<!--          <button class="btn-add" (click)="addToCart(product)">+ Adicionar</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
 
-    <!-- Shopping Cart -->
-    <section class="cart-section">
-      <div class="card cart-card">
-        <h2>Seu Carrinho</h2>
+<!--    &lt;!&ndash; Shopping Cart &ndash;&gt;-->
+<!--    <section class="cart-section">-->
+<!--      <div class="card cart-card">-->
+<!--        <h2>Seu Carrinho</h2>-->
 
-        <div class="form-group">
-          <label for="customerName">Nome do Cliente</label>
-          <input
-            id="customerName"
-            type="text"
-            [ngModel]="customerName()"
-            (ngModelChange)="customerName.set($event)"
-            placeholder="Ex: João Silva"
-          >
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="customerName">Nome do Cliente</label>-->
+<!--          <input-->
+<!--            id="customerName"-->
+<!--            type="text"-->
+<!--            [ngModel]="customerName()"-->
+<!--            (ngModelChange)="customerName.set($event)"-->
+<!--            placeholder="Ex: João Silva"-->
+<!--          >-->
+<!--        </div>-->
 
-        <div class="form-group">
-          <label for="payment">Método de Pagamento</label>
-          <select id="payment" [ngModel]="paymentMethod()" (ngModelChange)="paymentMethod.set($event)">
-            <option value="CASH">Dinheiro (CASH)</option>
-            <option value="PIX">PIX</option>
-            <option value="CREDIT_CARD">Cartão de Crédito</option>
-            <option value="DEBIT_CARD">Cartão de Débito</option>
-          </select>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="payment">Método de Pagamento</label>-->
+<!--          <select id="payment" [ngModel]="paymentMethod()" (ngModelChange)="paymentMethod.set($event)">-->
+<!--            <option value="CASH">Dinheiro (CASH)</option>-->
+<!--            <option value="PIX">PIX</option>-->
+<!--            <option value="CREDIT_CARD">Cartão de Crédito</option>-->
+<!--            <option value="DEBIT_CARD">Cartão de Débito</option>-->
+<!--          </select>-->
+<!--        </div>-->
 
-        <hr>
+<!--        <hr>-->
 
-        <div *ngIf="cartItems().length === 0" class="empty-cart">
-          Carrinho vazio. Adicione produtos.
-        </div>
+<!--        <div *ngIf="cartItems().length === 0" class="empty-cart">-->
+<!--          Carrinho vazio. Adicione produtos.-->
+<!--        </div>-->
 
-        <ul class="cart-list">
-          <li *ngFor="let item of cartItems()" class="cart-item">
-            <div class="item-info">
-              <span class="item-name">{{ getProductName(item.productId) }}</span>
-              <div class="qty-controls">
-                <button (click)="updateQuantity(item.productId, item.quantity - 1)">-</button>
-                <span>{{ item.quantity }}</span>
-                <button (click)="updateQuantity(item.productId, item.quantity + 1)">+</button>
-              </div>
-            </div>
-            <button class="btn-remove" (click)="removeFromCart(item.productId)">Remover</button>
-          </li>
-        </ul>
+<!--        <ul class="cart-list">-->
+<!--          <li *ngFor="let item of cartItems()" class="cart-item">-->
+<!--            <div class="item-info">-->
+<!--              <span class="item-name">{{ getProductName(item.productId) }}</span>-->
+<!--              <div class="qty-controls">-->
+<!--                <button (click)="updateQuantity(item.productId, item.quantity - 1)">-</button>-->
+<!--                <span>{{ item.quantity }}</span>-->
+<!--                <button (click)="updateQuantity(item.productId, item.quantity + 1)">+</button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <button class="btn-remove" (click)="removeFromCart(item.productId)">Remover</button>-->
+<!--          </li>-->
+<!--        </ul>-->
 
-        <div class="cart-footer" *ngIf="cartItems().length > 0">
-          <div class="total-row">
-            <span>Total:</span>
-            <strong>{{ totalPrice() | currency:'BRL' }}</strong>
-          </div>
-          <button
-            class="btn-checkout"
-            [disabled]="!isValidOrder() || loading()"
-            (click)="placeOrder()"
-          >
-            Finalizar Pedido
-          </button>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
+<!--        <div class="cart-footer" *ngIf="cartItems().length > 0">-->
+<!--          <div class="total-row">-->
+<!--            <span>Total:</span>-->
+<!--            <strong>{{ totalPrice() | currency:'BRL' }}</strong>-->
+<!--          </div>-->
+<!--          <button-->
+<!--            class="btn-checkout"-->
+<!--            [disabled]="!isValidOrder() || loading()"-->
+<!--            (click)="placeOrder()"-->
+<!--          >-->
+<!--            Finalizar Pedido-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+<!--  </main>-->
+<!--</div>-->
 
-<router-outlet />
+<!--<router-outlet />-->
